@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rhino8 虚拟模型展示</title>
+    <link rel="stylesheet" href="./styles.css?v=20260510-merge1" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/three.module.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main class="viewer-shell">
+      <canvas id="modelCanvas" aria-label="Rhino8 虚拟模型三维视口"></canvas>
+
+      <header class="topbar">
+        <div class="brand">
+          <span>Rhino8 虚拟模型</span>
+          <strong>古城公园青年共居社区</strong>
+        </div>
+
+        <nav class="tool-row" aria-label="视图工具">
+          <button class="icon-button" type="button" data-action="reset-view" title="重置视角" aria-label="重置视角">
+            <span data-icon="rotate-ccw"></span>
+          </button>
+          <button class="icon-button" type="button" data-action="toggle-rotate" title="自动旋转" aria-label="自动旋转">
+            <span data-icon="play"></span>
+          </button>
+          <button class="icon-button" type="button" data-action="toggle-section" title="剖切视图" aria-label="剖切视图">
+            <span data-icon="scan"></span>
+          </button>
+          <button class="icon-button" type="button" data-action="toggle-panel" title="控制面板" aria-label="控制面板">
+            <span data-icon="panel-right-close"></span>
+          </button>
+          <button class="icon-button" type="button" data-action="fullscreen" title="全屏查看" aria-label="全屏查看">
+            <span data-icon="maximize"></span>
+          </button>
+        </nav>
+      </header>
+
+      <aside class="control-panel" id="controlPanel" aria-label="模型控制">
+        <div class="panel-heading">
+          <span>模型</span>
+          <output id="loadState">准备中</output>
+        </div>
+
+        <label class="field">
+          <span>文件</span>
+          <select id="modelSelect" aria-label="选择模型文件"></select>
+        </label>
+
+        <div class="segmented" role="group" aria-label="显示模式">
+          <button type="button" class="active" data-view-mode="material">材质</button>
+          <button type="button" data-view-mode="white">白模</button>
+          <button type="button" data-view-mode="layer">层级</button>
+        </div>
+
+        <label class="range-field">
+          <span>环境光 <output id="ambientValue">65%</output></span>
+          <input id="ambientInput" type="range" min="20" max="120" value="65" />
+        </label>
+
+        <label class="range-field">
+          <span>曝光 <output id="exposureValue">100%</output></span>
+          <input id="exposureInput" type="range" min="60" max="150" value="100" />
+        </label>
+
+        <label class="range-field">
+          <span>剖切 <output id="sectionValue">50%</output></span>
+          <input id="sectionInput" type="range" min="0" max="100" value="50" />
+        </label>
+
+        <dl class="metrics" id="metrics">
+          <div>
+            <dt>Mesh</dt>
+            <dd>--</dd>
+          </div>
+          <div>
+            <dt>三角面</dt>
+            <dd>--</dd>
+          </div>
+          <div>
+            <dt>尺寸</dt>
+            <dd>--</dd>
+          </div>
+        </dl>
+      </aside>
+
+      <section class="thumb-strip" id="drawingStrip" aria-label="基础图纸"></section>
+
+      <dialog class="image-viewer" id="imageViewer">
+        <button class="icon-button close-viewer" type="button" data-action="close-image" title="关闭图纸" aria-label="关闭图纸">
+          <span data-icon="x"></span>
+        </button>
+        <img id="viewerImage" src="" alt="图纸预览" />
+        <div class="image-caption" id="viewerCaption"></div>
+      </dialog>
+
+      <div class="loading-layer" id="loadingLayer">
+        <div class="loading-panel">
+          <span data-icon="box"></span>
+          <strong id="loadingTitle">正在加载最终模型</strong>
+          <div class="progress-track" aria-hidden="true">
+            <span id="progressBar"></span>
+          </div>
+          <p id="loadingDetail">首次打开需要读取模型文件，请稍等。</p>
+        </div>
+      </div>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </main>
+
+    <script type="module" src="./main.js?v=20260510-merge1"></script>
+  </body>
+</html>
